@@ -169,6 +169,10 @@ footer {
     margin-bottom: 20px;
   }
 
+  .array-inputs {
+    order: 1;
+  }
+
   .array-inputs p,
   .header_right p {
     margin: 10px 0;
@@ -182,6 +186,10 @@ footer {
   .header_right button {
     margin: 5px 0;
     width: 80%;
+  }
+
+  nav .header_right .nav-heading{
+    justify-content: center;
   }
 
   .algos {
