@@ -211,4 +211,8 @@ footer {
   section #Info_Cont2 {
     padding: 10% 5%;
   }
+
+  section #array_container {
+    padding: 0 3%;
+  }
 }
