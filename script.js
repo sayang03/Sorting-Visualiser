@@ -89,6 +89,65 @@ function runalgo() {
   }
 }
 
+var speed = 1000;
+
+inp_aspeed.addEventListener("input", vis_speed);
+
+function vis_speed() {
+  var array_speed = inp_aspeed.value;
+  switch (parseInt(array_speed)) {
+    case 1:
+      speed = 50;
+      break;
+    case 2:
+      speed = 100;
+      break;
+    case 3:
+      speed = 500;
+      break;
+    case 4:
+      speed = 1000;
+      break;
+    case 5:
+      speed = 5000;
+      break;
+  }
+
+  delay_time = 10000 / (Math.floor(array_size / 10) * speed); //Decrease numerator to increase speed.
+}
+
+var delay_time = 10000 / (Math.floor(array_size / 10) * speed); //Decrease numerator to increase speed.
+var c_delay = 0; //This is updated ov every div change so that visualization is visible.
+
+function div_update(cont, height, color) {
+  window.setTimeout(function () {
+    cont.style =
+      " margin:0% " +
+      margin_size +
+      "%; width:" +
+      (100 / array_size - 2 * margin_size) +
+      "%; height:" +
+      height +
+      "%; background-color:" +
+      color +
+      ";";
+  }, (c_delay += delay_time));
+}
+
+function enable_buttons() {
+  window.setTimeout(function () {
+    for (var i = 0; i < butts_algos.length; i++) {
+      butts_algos[i].classList = [];
+      butts_algos[i].classList.add("butt_unselected");
+
+      butts_algos[i].disabled = false;
+      inp_as.disabled = false;
+      inp_gen.disabled = false;
+      inp_aspeed.disabled = false;
+    }
+  }, (c_delay += delay_time));
+}
+
 function Bubble() {
   //Setting Time complexities
   document.getElementById("Time_Worst").innerText = "O(N^2)";
@@ -295,8 +354,6 @@ function quick_partition(start, end) {
   for (var j = start + 1; j <= end; j++) {
     //re-arrange the array by putting elements which are less than pivot on one side and which are greater that on other.
     if (div_sizes[j] < piv) {
-      div_update(divs[j], div_sizes[j], "yellow"); //Color update
-
       div_update(divs[i], div_sizes[i], "red"); //Color update
       div_update(divs[j], div_sizes[j], "red"); //Color update
 
@@ -307,8 +364,8 @@ function quick_partition(start, end) {
       div_update(divs[i], div_sizes[i], "red"); //Height update
       div_update(divs[j], div_sizes[j], "red"); //Height update
 
-      div_update(divs[i], div_sizes[i], "navy"); //Height update
-      div_update(divs[j], div_sizes[j], "navy"); //Height update
+      div_update(divs[i], div_sizes[i], "navy"); //Color update
+      div_update(divs[j], div_sizes[j], "navy"); //Color update
 
       i += 1;
     }
@@ -323,9 +380,8 @@ function quick_partition(start, end) {
   div_update(divs[start], div_sizes[start], "red"); //Height update
   div_update(divs[i - 1], div_sizes[i - 1], "red"); //Height update
 
-  for (var t = start; t <= i; t++) {
-    div_update(divs[t], div_sizes[t], "green"); //Color update
-  }
+  div_update(divs[start], div_sizes[start], "navy"); //Color update
+  div_update(divs[i - 1], div_sizes[i - 1], "navy"); //Color update
 
   return i - 1; //return the position of the pivot
 }
@@ -334,8 +390,12 @@ function quick_sort(start, end) {
   if (start < end) {
     //stores the position of pivot element
     var piv_pos = quick_partition(start, end);
+    div_update(divs[piv_pos], div_sizes[piv_pos], "green"); //Color update
     quick_sort(start, piv_pos - 1); //sorts the left side of pivot.
     quick_sort(piv_pos + 1, end); //sorts the right side of pivot.
+  } else if (start == end) {
+    div_update(divs[start], div_sizes[start], "green");
+    return;
   }
 }
 
@@ -418,63 +478,4 @@ function heap_sort() {
     div_update(divs[i], div_sizes[i], "green"); //Color update
   }
   div_update(divs[i], div_sizes[i], "green"); //Color update
-}
-
-var speed = 1000;
-
-inp_aspeed.addEventListener("input", vis_speed);
-
-function vis_speed() {
-  var array_speed = inp_aspeed.value;
-  switch (parseInt(array_speed)) {
-    case 1:
-      speed = 50;
-      break;
-    case 2:
-      speed = 100;
-      break;
-    case 3:
-      speed = 500;
-      break;
-    case 4:
-      speed = 1000;
-      break;
-    case 5:
-      speed = 5000;
-      break;
-  }
-
-  delay_time = 10000 / (Math.floor(array_size / 10) * speed); //Decrease numerator to increase speed.
-}
-
-var delay_time = 10000 / (Math.floor(array_size / 10) * speed); //Decrease numerator to increase speed.
-var c_delay = 0; //This is updated ov every div change so that visualization is visible.
-
-function div_update(cont, height, color) {
-  window.setTimeout(function () {
-    cont.style =
-      " margin:0% " +
-      margin_size +
-      "%; width:" +
-      (100 / array_size - 2 * margin_size) +
-      "%; height:" +
-      height +
-      "%; background-color:" +
-      color +
-      ";";
-  }, (c_delay += delay_time));
-}
-
-function enable_buttons() {
-  window.setTimeout(function () {
-    for (var i = 0; i < butts_algos.length; i++) {
-      butts_algos[i].classList = [];
-      butts_algos[i].classList.add("butt_unselected");
-
-      butts_algos[i].disabled = false;
-      inp_as.disabled = false;
-      inp_gen.disabled = false;
-      inp_aspeed.disabled = false;
-    }
-  }, (c_delay += delay_time));
 }
